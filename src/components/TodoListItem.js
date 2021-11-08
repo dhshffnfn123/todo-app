@@ -22,4 +22,4 @@ const TodoListItem = ({ todo, onRemove, onToggle }) => {
     );
 };
 
-export default TodoListItem;
+export default React.memo(TodoListItem);    // React.memo로 감싸주어 리렌더링을 하지 않도록 한다.
