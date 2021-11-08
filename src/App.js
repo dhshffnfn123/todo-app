@@ -19,12 +19,20 @@ function todoReducer(todos, action) {
   switch (action.type) {
     case 'INSERT' : // 새로 추가
       // { type: 'INSERT', todo: {id: 1, text: 'todo', checked: false }}
-      return todos.concat(action)
+      return todos.concat(action.todo);
+    case 'REMOVE': // 제거
+    // { type: 'REMOVE', id: 1 }
+      return todos.filter(todo => todo.id !== action.id);
+    case 'TOGGLE': // 토글
+      return todos.map(todo =>
+        todo.id === action.id ? { ...todo, checked: !todo.checked } : todo,);
+        default:
+          return todos;
   }
 }
 
 const App = () => {
-  const [todos, setTodos] = useState(createBulkTodos);
+  const [todos, dispatch] = useReducer(todoReducer, undefined, createBulkTodos);
 
   // 고윳값으로 사용할 id
   // ref를 사용하여 변수 담기
@@ -37,24 +45,20 @@ const App = () => {
         text,
         checked: false,
       };
-      setTodos(todos => todos.concat(todo));
+      dispatch({ type: 'INSERT', todo});
       nextId.current += 1; // nextId 1씩 더하기
     },
     []);
 
   const onRemove = useCallback(
     id => {
-      setTodos(todos => todos.filter(todo => todo.id !== id)); // id 값을 받아와서 그 id 값을 제외한 값을 넣는다.
+      dispatch({ type: 'REMOVE', id }); // id 값을 받아와서 그 id 값을 제외한 값을 넣는다.
     },
     []);
 
   const onToggle = useCallback(
     id => {
-      setTodos(todos =>
-        todos.map(todo =>
-          todo.id === id ? {...todo, checked : !todo.checked } : todo,
-        ),
-      );
+      dispatch({ type: 'TOGGLE', id });
     },
     []);
 
