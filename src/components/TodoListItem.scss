@@ -1,11 +1,19 @@
+.TodoListItem-virtualized {
+    // 엘리먼트 사이사이에 테두리를 넣어 줌
+    & + & {
+        border-top: 1px solid #dee2e6;
+    }
+    &:nth-child(even) {
+        background: #dbf5f5;
+    }
+}
+
 .TodoListItem {
     padding: 1rem;
     display: flex;
     align-items: center; // 세로 중앙 정렬
 
-    &:nth-child(even) {
-        background: #dbf5f5;
-    }
+    
     .checkbox {
         cursor: pointer;
         flex: 1;
@@ -41,8 +49,5 @@
         }
     }
 
-    // 엘리먼트 사이사이에 테두리를 넣어 줌
-    & + & {
-        border-top: 1px solid #dee2e6;
-    }
+    
 }
